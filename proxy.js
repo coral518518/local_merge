@@ -15,7 +15,7 @@ app.use('/grok2api-main', (req, res) => {
     proxy.web(req, res, { target: 'http://localhost:8000' });
 });
 
-// 启动代理服务，统一监听 80 端口
-app.listen(80, () => {
+// 启动代理服务，统一监听 8080 端口
+app.listen(8080, () => {
     console.log('Proxy server running on port 80');
 });

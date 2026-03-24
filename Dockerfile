@@ -17,7 +17,7 @@ COPY . /app
 RUN npm install
 
 # 暴露端口
-EXPOSE 80
+EXPOSE 8080
 
 # 启动 Node.js 进程管理器（假设使用 Express.js）
 CMD ["node", "proxy.js"]
