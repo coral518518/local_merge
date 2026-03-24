@@ -10,6 +10,10 @@ if [ ! -f "config.yaml" ]; then
     cp config.example.yaml config.yaml 2>/dev/null || true
 fi
 
+# Enable Management API by providing a default password if not provided by the user
+export MANAGEMENT_PASSWORD="${MANAGEMENT_PASSWORD:-coral}"
+echo "CLIProxyAPI Management password is: $MANAGEMENT_PASSWORD"
+
 # Run built binary if it exists (e.g. built by Docker), otherwise go run
 if [ -x "./CLIProxyAPI" ]; then
     ./CLIProxyAPI &
