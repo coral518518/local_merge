@@ -1,39 +1,33 @@
-const express = require('express');
-const httpProxy = require('http-proxy');
+#!/bin/bash
 
-const app = express();
-const proxy = httpProxy.createProxyServer({});
+# Fix: start.sh was previously overwritten by proxy.js contents.
+# This script correctly starts the two backend services.
 
-proxy.on('error', (err, req, res) => {
-  console.error('Proxy error:', err.message);
-  if (!res.headersSent) {
-    res.writeHead(502, { 'Content-Type': 'text/plain; charset=utf-8' });
-  }
-  res.end('Bad gateway');
-});
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-function forward(prefix, target) {
-  app.use(prefix, (req, res) => {
-    req.url = req.url.replace(new RegExp(`^${prefix}`), '') || '/';
-    proxy.web(req, res, { target, changeOrigin: true });
-  });
-}
+echo "Starting CLIProxyAPI on port 8317..."
+cd "$DIR/CLIProxyAPI-main"
+if [ ! -f "config.yaml" ]; then
+    cp config.example.yaml config.yaml
+fi
 
-forward('/CLIProxyAPI-main', 'http://127.0.0.1:8317');
-forward('/grok2api-main', 'http://127.0.0.1:8000');
+# Run built binary if it exists (e.g. built by Docker), otherwise go run
+if [ -x "./CLIProxyAPI" ]; then
+    ./CLIProxyAPI &
+else
+    go run ./cmd/server/ &
+fi
 
-app.get('/', (req, res) => {
-  res.setHeader('Content-Type', 'text/html; charset=utf-8');
-  res.end(`
-    <h2>Services Running</h2>
-    <ul>
-      <li><a href="/CLIProxyAPI-main">CLIProxyAPI-main</a></li>
-      <li><a href="/grok2api-main">grok2api-main</a></li>
-    </ul>
-  `);
-});
+echo "Starting grok2api-main on port 8000..."
+cd "$DIR/grok2api-main"
+# Grok2API utilizes granian, run via uv if available
+if command -v uv &> /dev/null; then
+    uv run granian --interface asgi --host 0.0.0.0 --port 8000 --workers 1 main:app &
+else
+    # Fallback to plain python3 and pip
+    python3 -m pip install -r requirements.txt granian --break-system-packages || true
+    python3 -m granian --interface asgi --host 0.0.0.0 --port 8000 --workers 1 main:app &
+fi
 
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Proxy server running on port ${PORT}`);
-});
+echo "Backend services starting in background..."
+wait
