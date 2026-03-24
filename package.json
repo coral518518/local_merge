@@ -1,0 +1,13 @@
+{
+    "name": "multi-service-entry",
+    "version": "1.0.0",
+    "private": true,
+    "main": "proxy.js",
+    "scripts": {
+        "start": "node proxy.js"
+    },
+    "dependencies": {
+        "express": "^4.21.2",
+        "http-proxy": "^1.18.1"
+    }
+}

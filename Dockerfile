@@ -1,23 +1,24 @@
-# 使用基础镜像
-FROM node:16
+FROM node:20-bullseye
 
-# 安装必需的工具
-RUN apt-get update && apt-get install -y \
-    curl \
-    git \
-    && rm -rf /var/lib/apt/lists/*
-
-# 设置工作目录
 WORKDIR /app
 
-# 复制项目代码
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip \
+    golang \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
 COPY . /app
 
-# 安装 Node.js 依赖
 RUN npm install
 
-# 暴露端口
+RUN cd /app/CLIProxyAPI-main && \
+    go mod tidy && \
+    go build -o CLIProxyAPI .
+
+RUN chmod +x /app/start.sh
+
 EXPOSE 8080
 
-# 启动 Node.js 进程管理器（假设使用 Express.js）
-CMD ["node", "proxy.js"]
+CMD ["/app/start.sh"]
