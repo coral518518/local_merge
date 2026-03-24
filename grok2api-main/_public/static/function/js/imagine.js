@@ -111,7 +111,7 @@
 
   async function loadFilterDefaults() {
     try {
-      const res = await fetch('/v1/function/imagine/config', { cache: 'no-store' });
+      const res = await fetch('/grok2api-main/v1/function/imagine/config', { cache: 'no-store' });
       if (!res.ok) return;
       const data = await res.json();
       const value = parseInt(data && data.final_min_bytes, 10);
@@ -218,7 +218,7 @@
   }
 
   async function createImagineTask(prompt, ratio, authHeader, nsfwEnabled) {
-    const res = await fetch('/v1/function/imagine/start', {
+    const res = await fetch('/grok2api-main/v1/function/imagine/start', {
       method: 'POST',
       headers: {
         ...buildAuthHeaders(authHeader),
@@ -249,7 +249,7 @@
   async function stopImagineTasks(taskIds, authHeader) {
     if (!taskIds || taskIds.length === 0) return;
     try {
-      await fetch('/v1/function/imagine/stop', {
+      await fetch('/grok2api-main/v1/function/imagine/stop', {
         method: 'POST',
         headers: {
           ...buildAuthHeaders(authHeader),

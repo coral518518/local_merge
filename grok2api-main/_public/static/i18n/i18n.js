@@ -87,7 +87,7 @@
     lang = detect();
     document.documentElement.lang = lang === 'zh' ? 'zh-CN' : lang;
     var version = getStaticVersion();
-    var url = '/static/i18n/locales/' + lang + '.json' + (version ? ('?v=' + encodeURIComponent(version)) : '');
+    var url = '/grok2api-main/static/i18n/locales/' + lang + '.json' + (version ? ('?v=' + encodeURIComponent(version)) : '');
     fetch(url)
       .then(function (r) { if (!r.ok) throw r; return r.json(); })
       .then(function (j) { data = j; })

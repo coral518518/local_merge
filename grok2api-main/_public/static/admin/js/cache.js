@@ -794,7 +794,7 @@ async function clearCache(type) {
   if (!ok) return;
 
   try {
-    const res = await fetch('/v1/admin/cache/clear', {
+    const res = await fetch('/grok2api-main/v1/admin/cache/clear', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -1268,7 +1268,7 @@ async function deleteLocalFile(type, name) {
 
 async function requestDeleteLocalFile(type, name) {
   try {
-    const res = await fetch('/v1/admin/cache/item/delete', {
+    const res = await fetch('/grok2api-main/v1/admin/cache/item/delete', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -1472,7 +1472,7 @@ async function startBatchLoad(tokens) {
   refreshBatchUI();
 
   try {
-    const res = await fetch('/v1/admin/cache/online/load/async', {
+    const res = await fetch('/grok2api-main/v1/admin/cache/online/load/async', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -1610,7 +1610,7 @@ async function startBatchDelete(tokens) {
   updateDeleteButton();
   refreshBatchUI();
   try {
-    const res = await fetch('/v1/admin/cache/online/clear/async', {
+    const res = await fetch('/grok2api-main/v1/admin/cache/online/clear/async', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -1705,7 +1705,7 @@ async function clearOnlineCache(targetToken = '', skipConfirm = false) {
   showToast(t('cache.cleanInProgress'), 'info');
 
   try {
-    const res = await fetch('/v1/admin/cache/online/clear', {
+    const res = await fetch('/grok2api-main/v1/admin/cache/online/clear', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

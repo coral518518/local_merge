@@ -173,7 +173,7 @@ def create_app() -> FastAPI:
 
     @app.get("/favicon.ico", include_in_schema=False)
     def favicon():
-        return RedirectResponse(url="/static/common/img/favicon/favicon.ico")
+        return RedirectResponse(url="/grok2api-main/static/common/img/favicon/favicon.ico")
     
     # 健康检查接口（用于 Render、服务器保活检测等）
     @app.get("/health")

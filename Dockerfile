@@ -1,18 +1,17 @@
-# --- Stage 1: Build the Go application ---
-FROM golang:1.23-alpine AS go-builder
+FROM golang:1.26-alpine AS go-builder
 
 # 配置 Alpine 和 Go proxy 使用阿里云和国内镜像，解决网络不通导致构建失败的问题
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
 RUN apk add --no-cache git
-ENV GOPROXY=https://goproxy.cn,direct
+ENV GOPROXY=https://mirrors.aliyun.com/goproxy/,https://goproxy.cn,direct
 
 WORKDIR /build
 # 单独拷贝 Go 程序以利用缓存构建
 COPY CLIProxyAPI-main/ ./CLIProxyAPI-main/
 
 RUN cd CLIProxyAPI-main && \
-    go mod tidy && \
-    go build -o ./CLIProxyAPI ./cmd/server/
+    go mod download && \
+    CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o ./CLIProxyAPI ./cmd/server/
 
 
 # --- Stage 2: Final Runtime Environment ---

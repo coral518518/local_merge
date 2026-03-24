@@ -12,7 +12,7 @@ if (functionKeyInput) {
 }
 
 async function requestLogin(key) {
-  const res = await fetch('/v1/admin/verify', {
+  const res = await fetch('/grok2api-main/v1/admin/verify', {
     method: 'GET',
     headers: { 'Authorization': `Bearer ${key}` }
   });
@@ -31,7 +31,7 @@ async function login() {
       if (functionKey) {
         await storeFunctionKey(functionKey);
       }
-      window.location.href = '/admin/token';
+      window.location.href = '/grok2api-main/admin/token';
     } else {
       showToast(t('common.invalidKey'), 'error');
     }
@@ -46,7 +46,7 @@ async function login() {
   if (!existingKey) return;
   try {
     const ok = await requestLogin(existingKey);
-    if (ok) window.location.href = '/admin/token';
+    if (ok) window.location.href = '/grok2api-main/admin/token';
   } catch (e) {
     return;
   }

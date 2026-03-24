@@ -7,7 +7,7 @@ if (functionKeyInput) {
 
 async function requestFunctionLogin(key) {
   const headers = key ? { 'Authorization': `Bearer ${key}` } : {};
-  const res = await fetch('/v1/function/verify', {
+  const res = await fetch('/grok2api-main/v1/function/verify', {
     method: 'GET',
     headers
   });

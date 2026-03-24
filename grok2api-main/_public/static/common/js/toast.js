@@ -59,7 +59,7 @@ function showToast(message, type = 'success') {
   );
   const path = window.location.pathname || '';
 
-  if (!path.startsWith('/admin') || path.startsWith('/admin/login')) {
+  if (!path.startsWith('/admin') || path.startsWith('/grok2api-main/admin/login')) {
     return;
   }
 

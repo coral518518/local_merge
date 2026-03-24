@@ -39,7 +39,7 @@
   let attachment = null;
   let activeStreamInfo = null;
   const feedbackUrl = 'https://github.com/chenyme/grok2api/issues/new';
-  const CHAT_COMPLETIONS_ENDPOINT = '/v1/function/chat/completions';
+  const CHAT_COMPLETIONS_ENDPOINT = '/grok2api-main/v1/function/chat/completions';
   const DEFAULT_SESSION_TITLES = ['新会话', 'New Session'];
 
   let sessionsData = null;
@@ -1350,7 +1350,7 @@
     const fallback = ['grok-4.1-fast', 'grok-4', 'grok-3', 'grok-3-mini', 'grok-3-thinking', 'grok-4.20-beta', 'grok-imagine-1.0-fast'];
     const preferred = 'grok-4.20-beta';
     try {
-      const res = await fetch('/v1/models', { cache: 'no-store' });
+      const res = await fetch('/grok2api-main/v1/models', { cache: 'no-store' });
       if (!res.ok) throw new Error('models fetch failed');
       const data = await res.json();
       const items = Array.isArray(data && data.data) ? data.data : [];

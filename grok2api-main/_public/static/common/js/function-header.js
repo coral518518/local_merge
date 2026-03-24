@@ -2,14 +2,14 @@ async function loadFunctionHeader() {
   const container = document.getElementById('app-header');
   if (!container) return;
   try {
-    const res = await fetch('/static/common/html/function-header.html?v=1.6.2');
+    const res = await fetch('/grok2api-main/static/common/html/function-header.html?v=1.6.2');
     if (!res.ok) return;
     container.innerHTML = await res.text();
     const logoutBtn = container.querySelector('#function-logout-btn');
     if (logoutBtn) {
       logoutBtn.classList.add('hidden');
       try {
-        const verify = await fetch('/v1/function/verify', { method: 'GET' });
+        const verify = await fetch('/grok2api-main/v1/function/verify', { method: 'GET' });
         if (verify.status === 401) {
           logoutBtn.classList.remove('hidden');
         }

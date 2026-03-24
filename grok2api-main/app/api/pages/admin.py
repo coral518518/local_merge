@@ -16,7 +16,7 @@ def _admin_page_response(relative_path: str) -> FileResponse:
 
 @router.get("/admin", include_in_schema=False)
 async def admin_root():
-    return RedirectResponse(url="/admin/login")
+    return RedirectResponse(url="/grok2api-main/admin/login")
 
 
 @router.get("/admin/login", include_in_schema=False)

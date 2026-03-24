@@ -20,7 +20,7 @@ def _function_page_response(relative_path: str) -> FileResponse:
 async def root():
     if is_function_enabled():
         return RedirectResponse(url="/login")
-    return RedirectResponse(url="/admin/login")
+    return RedirectResponse(url="/grok2api-main/admin/login")
 
 
 @router.get("/login", include_in_schema=False)

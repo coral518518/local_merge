@@ -163,17 +163,17 @@ async function ensureAdminKey() {
   if (cachedAdminKey) return cachedAdminKey;
   const appKey = await getStoredAppKey();
   if (!appKey) {
-    window.location.href = '/admin/login';
+    window.location.href = '/grok2api-main/admin/login';
     return null;
   }
   try {
-    const ok = await verifyKey('/v1/admin/verify', appKey);
+    const ok = await verifyKey('/grok2api-main/v1/admin/verify', appKey);
     if (!ok) throw new Error('Unauthorized');
     cachedAdminKey = `Bearer ${appKey}`;
     return cachedAdminKey;
   } catch (e) {
     clearStoredAppKey();
-    window.location.href = '/admin/login';
+    window.location.href = '/grok2api-main/admin/login';
     return null;
   }
 }
@@ -184,7 +184,7 @@ async function ensureFunctionKey() {
   const key = await getStoredFunctionKey();
   if (!key) {
     try {
-      const ok = await verifyKey('/v1/function/verify', '');
+      const ok = await verifyKey('/grok2api-main/v1/function/verify', '');
       if (ok) {
         cachedFunctionKey = '';
         return cachedFunctionKey;
@@ -196,7 +196,7 @@ async function ensureFunctionKey() {
   }
 
   try {
-    const ok = await verifyKey('/v1/function/verify', key);
+    const ok = await verifyKey('/grok2api-main/v1/function/verify', key);
     if (!ok) throw new Error('Unauthorized');
     cachedFunctionKey = `Bearer ${key}`;
     return cachedFunctionKey;
@@ -213,7 +213,7 @@ function buildAuthHeaders(apiKey) {
 function logout() {
   clearStoredAppKey();
   clearStoredFunctionKey();
-  window.location.href = '/admin/login';
+  window.location.href = '/grok2api-main/admin/login';
 }
 
 function functionLogout() {
@@ -225,7 +225,7 @@ async function fetchStorageType() {
   const apiKey = await ensureAdminKey();
   if (apiKey === null) return null;
   try {
-    const res = await fetch('/v1/admin/storage', {
+    const res = await fetch('/grok2api-main/v1/admin/storage', {
       headers: buildAuthHeaders(apiKey)
     });
     if (!res.ok) return null;

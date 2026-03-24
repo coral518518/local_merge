@@ -292,7 +292,7 @@
   async function createVideoTask(authHeader) {
     const prompt = promptInput ? promptInput.value.trim() : '';
     const imageUrls = getReferenceImages();
-    const res = await fetch('/v1/function/video/start', {
+    const res = await fetch('/grok2api-main/v1/function/video/start', {
       method: 'POST',
       headers: {
         ...buildAuthHeaders(authHeader),
@@ -319,7 +319,7 @@
   async function stopVideoTask(taskId, authHeader) {
     if (!taskId) return;
     try {
-      await fetch('/v1/function/video/stop', {
+      await fetch('/grok2api-main/v1/function/video/stop', {
         method: 'POST',
         headers: {
           ...buildAuthHeaders(authHeader),

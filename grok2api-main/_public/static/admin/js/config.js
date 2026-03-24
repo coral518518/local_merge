@@ -367,7 +367,7 @@ async function init() {
 
 async function loadData() {
   try {
-    const res = await fetch('/v1/admin/config', {
+    const res = await fetch('/grok2api-main/v1/admin/config', {
       headers: buildAuthHeaders(apiKey)
     });
     if (res.ok) {
@@ -616,7 +616,7 @@ async function saveConfig() {
       }
     }
 
-    const res = await fetch('/v1/admin/config', {
+    const res = await fetch('/grok2api-main/v1/admin/config', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
