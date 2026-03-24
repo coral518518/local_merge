@@ -3,6 +3,16 @@ const httpProxy = require('http-proxy');
 
 const app = express();
 const proxy = httpProxy.createProxyServer({});
+// 拦截响应，修复后端的重定向（把绝对路径加上前缀）
+proxy.on('proxyRes', (proxyRes, req, res) => {
+    if (proxyRes.headers.location && proxyRes.headers.location.startsWith('/')) {
+        if (req.originalUrl.startsWith('/grok2api-main')) {
+            proxyRes.headers.location = '/grok2api-main' + proxyRes.headers.location;
+        } else if (req.originalUrl.startsWith('/CLIProxyAPI-main')) {
+            proxyRes.headers.location = '/CLIProxyAPI-main' + proxyRes.headers.location;
+        }
+    }
+});
 
 proxy.on('error', (err, req, res) => {
     console.error('Proxy error:', err.message);

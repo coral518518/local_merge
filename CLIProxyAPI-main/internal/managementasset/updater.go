@@ -430,7 +430,20 @@ func atomicWriteFile(path string, data []byte) error {
 		_ = os.Remove(tmpName)
 	}()
 
-	if _, err = tmpFile.Write(data); err != nil {
+	// Inject custom routing prefix to fix hardcoded addresses in the downloaded SPA:
+	data = append([]byte{}, data...)
+	// Need to import "bytes" at top level, but atomicWriteFile can use strings since it's just bytes
+	sdata := string(data)
+	sdata = strings.ReplaceAll(sdata, "\"/v0/management", "\"/CLIProxyAPI-main/v0/management")
+	sdata = strings.ReplaceAll(sdata, "\"/auths", "\"/CLIProxyAPI-main/auths")
+	sdata = strings.ReplaceAll(sdata, "\"/anthropic/callback", "\"/CLIProxyAPI-main/anthropic/callback")
+	sdata = strings.ReplaceAll(sdata, "\"/codex/callback", "\"/CLIProxyAPI-main/codex/callback")
+	sdata = strings.ReplaceAll(sdata, "\"/google/callback", "\"/CLIProxyAPI-main/google/callback")
+	sdata = strings.ReplaceAll(sdata, "\"/iflow/callback", "\"/CLIProxyAPI-main/iflow/callback")
+	sdata = strings.ReplaceAll(sdata, "\"/antigravity/callback", "\"/CLIProxyAPI-main/antigravity/callback")
+	sdata = strings.ReplaceAll(sdata, "\"/v1/", "\"/CLIProxyAPI-main/v1/")
+	
+	if _, err = tmpFile.Write([]byte(sdata)); err != nil {
 		return err
 	}
 
