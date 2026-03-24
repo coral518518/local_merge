@@ -4,7 +4,7 @@
     "private": true,
     "main": "proxy.js",
     "scripts": {
-        "start": "node proxy.js"
+        "start": "bash start.sh"
     },
     "dependencies": {
         "express": "^4.21.2",
